@@ -23,10 +23,12 @@ export default function visitor({ types: t }) {
     visitor: {
       ImportDeclaration(path, state) {
         const replacements = getReplacements(state);
-        replacements.forEach(({ original, replacement }) => {
+        replacements.forEach(({ original, replacement, env }) => {
           const { value } = path.node.source;
           if (isModule(value, original)) {
-            path.node.source = source(value, original, replacement);
+            const newModule =
+              env && process.env[env] ? process.env[env] : replacement;
+            path.node.source = source(value, original, newModule);
           }
         });
       },
