@@ -27,7 +27,7 @@ export default function visitor({ types: t }) {
           const { value } = path.node.source;
           if (isModule(value, original)) {
             const newModule =
-              env && process.env[env] ? process.env[env] : replacement;
+              env && process.env[env] ? `./${process.env[env]}` : replacement;
             path.node.source = source(value, original, newModule);
           }
         });
